@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.swtchart.Chart;
+import org.eclipse.swtchart.Chart;
 
 import name.abuchen.portfolio.ui.UIConstants;
 
@@ -27,7 +27,7 @@ public abstract class AbstractChartToolTip implements Listener
     {
         this.chart = chart;
 
-        Composite plotArea = chart.getPlotArea();
+        Control plotArea = chart.getPlotArea().getControl();
         plotArea.addListener(SWT.MouseDown, this);
         plotArea.addListener(SWT.MouseMove, this);
         plotArea.addListener(SWT.MouseUp, this);
@@ -145,7 +145,7 @@ public abstract class AbstractChartToolTip implements Listener
 
     private Rectangle calculateBounds(Event event, Point size)
     {
-        Rectangle plotArea = chart.getPlotArea().getClientArea();
+        Rectangle plotArea = ((Composite)chart.getPlotArea().getControl()).getClientArea();
 
         int x = event.x + (size.x / 2) > plotArea.width ? plotArea.width - size.x : event.x - (size.x / 2);
         x = Math.max(x, 0);
@@ -154,7 +154,7 @@ public abstract class AbstractChartToolTip implements Listener
         y = Math.max(y, 0);
         y = Math.min(y, plotArea.height - size.y - PADDING);
 
-        Point pt = chart.getPlotArea().toDisplay(x, y);
+        Point pt = chart.getPlotArea().getControl().toDisplay(x, y);
         return new Rectangle(pt.x, pt.y, size.x, size.y);
     }
 

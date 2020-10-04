@@ -8,9 +8,9 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.swtchart.Chart;
-import org.swtchart.IBarSeries;
-import org.swtchart.ISeries.SeriesType;
+import org.eclipse.swtchart.Chart;
+import org.eclipse.swtchart.IBarSeries;
+import org.eclipse.swtchart.ISeries.SeriesType;
 
 import name.abuchen.portfolio.money.Values;
 import name.abuchen.portfolio.ui.Messages;
@@ -136,10 +136,12 @@ public class EarningsPerQuarterChartTab extends AbstractChartTab
             IBarSeries barSeries = (IBarSeries) getChart().getSeriesSet().createSeries(SeriesType.BAR,
                             String.valueOf(year));
 
-            double[] series = new double[Math.min(12, model.getNoOfMonths() - index)];
-            for (int ii = 0; ii < series.length; ii++)
+            double[] series = new double[Math.min(4, (int)(model.getNoOfMonths() - index) / 3)];
+            int length = Math.min(4, model.getNoOfMonths() - index);
+            for (int ii = 0; ii < length; ii++)
+            
             {
-                series[(int) ii / 3] = series[ii / 3] + model.getSum().getValue(index + ii) / Values.Amount.divider();
+                series[ii / 3] = series[ii / 3] + model.getSum().getValue(index + ii) / Values.Amount.divider();
             }
             barSeries.setYSeries(series);
 
