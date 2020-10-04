@@ -136,12 +136,11 @@ public class EarningsPerQuarterChartTab extends AbstractChartTab
             IBarSeries barSeries = (IBarSeries) getChart().getSeriesSet().createSeries(SeriesType.BAR,
                             String.valueOf(year));
 
-            double[] series = new double[Math.min(4, (int)(model.getNoOfMonths() - index) / 3)];
-            int length = Math.min(4, model.getNoOfMonths() - index);
+            int length = Math.min(12, model.getNoOfMonths() - index);
+            double[] series = new double[Math.min(4, (int)Math.ceil(length / 3.0))];
             for (int ii = 0; ii < length; ii++)
-            
             {
-                series[ii / 3] = series[ii / 3] + model.getSum().getValue(index + ii) / Values.Amount.divider();
+                series[(int)ii / 3] = series[(int)ii / 3] + model.getSum().getValue(index + ii) / Values.Amount.divider();
             }
             barSeries.setYSeries(series);
 

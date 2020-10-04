@@ -123,6 +123,61 @@ public class EarningsPerYearChartTab extends AbstractChartTab
         getChart().getAxisSet().getXAxis(0).setCategorySeries(labels);
     }
 
+    // @Override
+    // protected void createSeries()
+    // {
+    // updateCategorySeries();
+    //
+    // int startYear = model.getStartYear();
+    //
+    // double[] series = new double[LocalDate.now().getYear() - startYear + 1];
+    //
+    // boolean hasNegativeNumber = false;
+    //
+    // for (int index = 0; index < model.getNoOfMonths(); index += 12)
+    // {
+    // int year = (index / 12);
+    //
+    // long total = 0;
+    //
+    // int months = Math.min(12, model.getNoOfMonths() - index);
+    // for (int ii = 0; ii < months; ii++)
+    // total += model.getSum().getValue(index + ii);
+    //
+    // series[year] = total / Values.Amount.divider();
+    //
+    // if (total < 0L)
+    // hasNegativeNumber = true;
+    // }
+    //
+    // if (hasNegativeNumber)
+    // {
+    // IBarSeries barSeries = (IBarSeries)
+    // getChart().getSeriesSet().createSeries(SeriesType.BAR, getLabel());
+    // barSeries.setYSeries(series);
+    // barSeries.setBarColor(Colors.DARK_BLUE);
+    // }
+    // else
+    // {
+    // for (int i = 0; i < series.length; i++)
+    // {
+    // int year = model.getStartYear() + i;
+    // IBarSeries barSeries = (IBarSeries)
+    // getChart().getSeriesSet().createSeries(SeriesType.BAR,
+    // String.valueOf(year));
+    //
+    // double[] seriesX = new double[LocalDate.now().getYear() - startYear + 1];
+    // seriesX[i] = series[i];
+    //
+    // barSeries.setYSeries(seriesX);
+    //
+    // barSeries.setBarColor(getColor(year));
+    // barSeries.setBarPadding(25);
+    // barSeries.enableStack(true);
+    // }
+    // }
+    // }
+
     @Override
     protected void createSeries()
     {
@@ -130,13 +185,12 @@ public class EarningsPerYearChartTab extends AbstractChartTab
 
         int startYear = model.getStartYear();
 
-        double[] series = new double[LocalDate.now().getYear() - startYear + 1];
-
-        boolean hasNegativeNumber = false;
-
         for (int index = 0; index < model.getNoOfMonths(); index += 12)
         {
-            int year = (index / 12);
+            int year = model.getStartYear() + (index / 12);
+            IBarSeries barSeries = (IBarSeries) getChart().getSeriesSet().createSeries(SeriesType.BAR,
+                            String.valueOf(year));
+            double[] series = new double[LocalDate.now().getYear() - startYear + 1];
 
             long total = 0;
 
@@ -144,35 +198,15 @@ public class EarningsPerYearChartTab extends AbstractChartTab
             for (int ii = 0; ii < months; ii++)
                 total += model.getSum().getValue(index + ii);
 
-            series[year] = total / Values.Amount.divider();
+            series[index / 12] = total / Values.Amount.divider();
 
-            if (total < 0L)
-                hasNegativeNumber = true;
-        }
-
-        if (hasNegativeNumber)
-        {
-            IBarSeries barSeries = (IBarSeries) getChart().getSeriesSet().createSeries(SeriesType.BAR, getLabel());
             barSeries.setYSeries(series);
-            barSeries.setBarColor(Colors.DARK_BLUE);
+
+            barSeries.setBarColor(getColor(year));
+            barSeries.setBarPadding(25);
+//            barSeries.enableStack(true);
+            barSeries.setBarOverlay(true);
         }
-        else
-        {
-            for (int i = 0; i < series.length; i++)
-            {
-                int year = model.getStartYear() + i;
-                IBarSeries barSeries = (IBarSeries) getChart().getSeriesSet().createSeries(SeriesType.BAR,
-                                String.valueOf(year));
 
-                double[] seriesX = new double[LocalDate.now().getYear() - startYear + 1];
-                seriesX[i] = series[i];
-
-                barSeries.setYSeries(seriesX);
-
-                barSeries.setBarColor(getColor(year));
-                barSeries.setBarPadding(25);
-                barSeries.enableStack(true);
-            }
-        }
     }
 }
