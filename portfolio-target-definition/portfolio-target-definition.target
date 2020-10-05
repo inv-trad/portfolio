@@ -51,9 +51,9 @@
 		<unit id="org.eclipse.babel.nls_eclipse_fr.feature.group" version="4.14.0.v20200113020001"/>
 	</location>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="http://download.eclipse.org/swtchart/integration/REL-0.13.0/repository/"/>
-		<unit id="org.eclipse.swtchart.feature.feature.group" version="0.13.0.202010040616"/>
-		<unit id="org.eclipse.swtchart.feature.source.feature.group" version="0.13.0.202010040616"/>
+		<repository location="http://download.eclipse.org/swtchart/integration/REL-0.12.0/repository/"/>
+		<unit id="org.eclipse.swtchart.feature.feature.group" version="0.12.0.202010050409"/>
+		<unit id="org.eclipse.swtchart.feature.source.feature.group" version="0.12.0.202010050409"/>
 	</location>
 </locations>
 </target>
